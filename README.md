@@ -22,3 +22,15 @@ java-jar...
 ```bash
 grep...
 ```
+
+## 4. Count the total number of bases in both the forward and reverse files. 
+```bash
+grep...
+```
+
+## 5. Analyses of trimmed sequence quality
+```bash
+ssh -Y cjea222@cjea222.cs.uky.edu
+cd MyGenome/A16
+fastqc &
+```
