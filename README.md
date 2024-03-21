@@ -46,12 +46,22 @@ Take screen shots of output files:
 [F2_trimmed_screenshot.png](/data/F2_trimmed_screenshot.png)
 
 ## 6. Create a personal working directory in the MCC supercomputer. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_24cs485g/
+mkdir cjea222
+```
 
-
-## 7. Transfer/rename forward and reverse trimmed sequences to new directory. 
-
+## 7. Transfer forward and reverse trimmed sequences to new directory. 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+scp UFVPY184_1_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea222
+scp UFVPY184_2_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea222
+```
 
 ## 8. Copy Velvetoptimiser script to new directory. 
+``bash
+ssh cjea222@cjea222.cs.uky.edu
 - use nano to edit 
 
 ## 9. Request to run VelvetOptimiser 9using step size of 10) via SLURM que. 
