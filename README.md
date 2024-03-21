@@ -44,3 +44,30 @@ Take screen shots of output files:
 
 [F1_trimmed_screenshot.png](/data/F1_trimmed_screenshot.png)
 [F2_trimmed_screenshot.png](/data/F2_trimmed_screenshot.png)
+
+## 6. Create a personal working directory in the MCC supercomputer. 
+
+
+## 7. Transfer/rename forward and reverse trimmed sequences to new directory. 
+
+
+## 8. Copy Velvetoptimiser script to new directory. 
+- use nano to edit 
+
+## 9. Request to run VelvetOptimiser 9using step size of 10) via SLURM que. 
+
+
+## 10. Check the VelvetOptimiser output log file to view assembly metrics. 
+
+
+## 11. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
+
+
+## 12. Rename optimized assembly. 
+
+
+## 13. Rename sequence headers to a standard format. 
+
+
+## 14. Run Benchmarking Using Single-Copy Orthologs (BUSCO) on fully optimized assemblies. 
+
