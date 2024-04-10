@@ -66,18 +66,33 @@ ssh cjea222@cjea222.cs.uky.edu
 
 ## 9. Request to run VelvetOptimiser 9using step size of 10) via SLURM que. 
 
-
 ## 10. Check the VelvetOptimiser output log file to view assembly metrics. 
-
 
 ## 11. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
 
-
 ## 12. Rename optimized assembly. 
-
 
 ## 13. Rename sequence headers to a standard format. 
 
-
 ## 14. Run Benchmarking Using Single-Copy Orthologs (BUSCO) on fully optimized assemblies. 
 
+## 15. Check Version of Blast on VM. 
+
+## 16. Copy MyGenome assembly (UFVPY184) from MCC to the blast directory on VM. 
+
+## 17. BLAST UFVPY184 against sequences of transposons in the Magnaporthe genome.
+
+## 18. Investigate aligned sequences. 
+Find lenghts of longest contigs aligned: 
+
+Sort alignments based on chromosomal position: 
+
+Identify alignments involving full-length repeats: 
+
+## 19. BLAST UFVPY184 against mitochondrial DNA and export list of aligned contigs. 
+
+## 20. BLAST UFVPY184 against repeat-masked version of the B71 reference genome. 
+
+## 21. Identify SNP variants between UFVPY184 and B71v2sh genome. 
+
+## 22. Remove any contigs in UFVPY184 less than 200 base pairs in length.
