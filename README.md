@@ -63,6 +63,7 @@ scp UFVPY184_2_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea22
 ```bash
 ssh cjea222@cjea222.cs.uky.edu
 - use nano to edit
+
 ```
 
 ## 9. Request to run VelvetOptimiser 9 using step size of 10) via SLURM que. 
