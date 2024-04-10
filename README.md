@@ -65,18 +65,47 @@ ssh cjea222@cjea222.cs.uky.edu
 - use nano to edit
 
 ```
+## 9. Use Velvet Advisor. 
 
-## 9. Request to run VelvetOptimiser 9 using step size of 10) via SLURM que. 
+## 10. Run VelvetH and VelvetG with suggested K-mer value. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/cjea222/
+velveth UFVPY184_velvet 79 -shortPaired  -fastq.gz -separate UFVPY184_1_paired.fastq UFVPY184_2_paired.fastq
+velvetg UFVPY184_velvet
+```
+Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-## 10. Check the VelvetOptimiser output log file to view assembly metrics. 
+## 11. Run VelvetOptimiser using a range of K-mer values. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/cjea222/
+velvetoptimiser -s 121 -e 201 -x 10 -d UFVPY184_velvet_optimal -f '-shortPaired -fastq.gz  -separate UFVPY184_1_paired.fastq UFVPY184_2_paired.fastq' -t 1
+```
+Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-## 11. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
+## 12. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/cjea222/
+velvetoptimiser -s 93 -e 119 -x 2 -d UFVPY184_velvet_optimal_1 -f '-shortPaired -fastq.gz  -separate UFVPY184_1_paired.fastq UFVPY184_2_paired.fastq' -t 1
+```
+Optimized asssembly with velvet hash value of 109. 
+Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-## 12. Rename optimized assembly. 
-
-## 13. Rename sequence headers to a standard format. 
+## 13. Rename sequence headers to a standard format.
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/
+perl /SCRIPTS/SimpleFastaHeaders.pl cjea222/UFVPY184.fasta UFVPY184
+```
 
 ## 14. Run Benchmarking Using Single-Copy Orthologs (BUSCO) on fully optimized assemblies. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/
+sbatch /project/farman_s24cs485g/SLURM_SCRIPTS/BuscoSingularity.sh MyGenome.fasta
+```
 
 ## 15. Check Version of Blast on VM. 
 ```bash
