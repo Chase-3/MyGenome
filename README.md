@@ -60,11 +60,12 @@ scp UFVPY184_2_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea22
 ```
 
 ## 8. Copy Velvetoptimiser script to new directory. 
-``bash
+```bash
 ssh cjea222@cjea222.cs.uky.edu
-- use nano to edit 
+- use nano to edit
+```
 
-## 9. Request to run VelvetOptimiser 9using step size of 10) via SLURM que. 
+## 9. Request to run VelvetOptimiser 9 using step size of 10) via SLURM que. 
 
 ## 10. Check the VelvetOptimiser output log file to view assembly metrics. 
 
@@ -77,22 +78,85 @@ ssh cjea222@cjea222.cs.uky.edu
 ## 14. Run Benchmarking Using Single-Copy Orthologs (BUSCO) on fully optimized assemblies. 
 
 ## 15. Check Version of Blast on VM. 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+blastn -version 
+```
 
-## 16. Copy MyGenome assembly (UFVPY184) from MCC to the blast directory on VM. 
+## 16. Copy MyGenome assembly (UFVPY184) from MCC to the blast directory on VM.
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+scp cjea222@mcc.uky.edu /project/farman_s24cs485g/cjea222/UFVPY184_nh.fasta blast/
+```
 
 ## 17. BLAST UFVPY184 against sequences of transposons in the Magnaporthe genome.
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast
+blastn -subject UFVPY184_nh.fasta -query MoRepeats.fasta -out MoRepeats.MyGenome.BLASTn(0-11) -evalue 1e-20 -outfmt (0-11)
+```
 
 ## 18. Investigate aligned sequences. 
-Find lenghts of longest contigs aligned: 
+Find lengths of longest contigs in assembly: 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast
+scp AppliedBioinfo@10.163.183.71:~/Desktop/SequenceLengths.pl blast/
+perl SequenceLengths.pl UFVPY184_nh.fasta | sort -k2n
+```
 
 Sort alignments based on chromosomal position: 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast 
+awk '$2 ~/contigXXX/' MoRepeats.UFVPY184.BLASTn6 | sort -k9n
+```
+or
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast 
+grep <Repeat> MoRepeats.UFVPY184.BLASTn6 | awk \'$2 ~ /contigXXX/' | awk '$9 > (start position) && $9 < (end position)' | sort -k9n
+```
 
 Identify alignments involving full-length repeats: 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast 
+grep <Repeat> MoRepeats.UFVPY184BLASTn6 | awk '$4 >= 5638'
+```
 
 ## 19. BLAST UFVPY184 against mitochondrial DNA and export list of aligned contigs. 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd blast
+blastn -query MoMitochondrion.fasta -subject UFVPY184_nh.fasta -evalue 1e-50 -max_target_seqs 20000 -outfmt '6 qseqid sseqid slen length qstart qend sstart send btop' -out MoMitochondrion.UFVPY184.BLAST
+awk '$4/$3 > 0.9 {print $2 ",mitochondrion"}' MoMitochondrion.UFVPY184.BLAST > MyGenome_mitochondrion.csv
+```
 
 ## 20. BLAST UFVPY184 against repeat-masked version of the B71 reference genome. 
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+scp AppliedBioinfo@10.163.183.71:~/Desktop/B71v2sh_masked.fasta blast/ 
+cd blast
+blastn -query B71v2sh_masked.fasta -subject UFVPY184_nh.fasta -evalue 1e-50 -max_target_seqs 20000 -outfmt '6 qseqid sseqid qstart qend sstart send btop' -out B71v2sh.UFVPY184.BLAST
+```
 
 ## 21. Identify SNP variants between UFVPY184 and B71v2sh genome. 
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/cjea222/
+scp cjea222@cjea222.cs.uky.edu:~/blast/B71v2sh.UFVPY184.BLAST
+cd ..
+cp SCRIPTs/CallVariants.sh cjea222/
+cd cjea222
+sbatch CallVariants.sh B71v2sh.UFVPY184.BLAST
+```
 
 ## 22. Remove any contigs in UFVPY184 less than 200 base pairs in length.
+```bash
+ssh cjea222@mcc.uky.edu
+cd /project/farman_s24cs485g/
+cp SCRIPTs/CullShortContigs.pl cjea222/
+cd cjea222
+perl CullShortContigs.pl UFVPY184_nh.fasta
+```
