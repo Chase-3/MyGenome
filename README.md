@@ -32,6 +32,8 @@ grep -v -e \@A00216 -e \+  -e \F UFVPY184_2_paired.fastq | awk '{print length($0
 
 The sum of the two command outputs above is the total number of bases in both the forward and reverse files. 
 
+*screenshot of total number*
+
 ## 5. Analyses of trimmed sequence quality
 ```bash
 ssh -Y cjea222@cjea222.cs.uky.edu
@@ -65,6 +67,8 @@ Fill in the relevant fields with sequence reads data.
 Estimate the genome size to be 5.5 Mb.
 Use a target K-mer coverage of 20. 
 
+*screenshot of recommended k-mer value*
+
 ## 9. Run VelvetH and VelvetG with suggested K-mer value. 
 ```bash
 ssh cjea222@mcc.uky.edu
@@ -74,6 +78,8 @@ velvetg UFVPY184_velvet
 ```
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
+*screenshot of results*
+
 ## 10. Run VelvetOptimiser using a range of K-mer values. 
 ```bash
 ssh cjea222@mcc.uky.edu
@@ -81,6 +87,8 @@ cd /project/farman_s24cs485g/cjea222/
 velvetoptimiser -s 121 -e 201 -x 10 -d UFVPY184_velvet_optimal -f '-shortPaired -fastq.gz  -separate UFVPY184_1_paired.fastq UFVPY184_2_paired.fastq' -t 1
 ```
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
+
+*screenshot of results*
 
 ## 11. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
 ```bash
@@ -90,6 +98,8 @@ velvetoptimiser -s 93 -e 119 -x 2 -d UFVPY184_velvet_optimal_1 -f '-shortPaired 
 ```
 Optimized asssembly with velvet hash value of 109. 
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
+
+*screenshot of results*
 
 ## 12. Rename sequence headers to a standard format.
 ```bash
@@ -105,6 +115,8 @@ ssh cjea222@mcc.uky.edu
 cd /project/farman_s24cs485g/
 sbatch /project/farman_s24cs485g/SLURM_SCRIPTS/BuscoSingularity.sh MyGenome.fasta
 ```
+
+*screenshot of BUSCO score*
 
 ## 14. Check Version of Blast on VM. 
 ```bash
@@ -158,6 +170,8 @@ cd blast
 blastn -query MoMitochondrion.fasta -subject UFVPY184_nh.fasta -evalue 1e-50 -max_target_seqs 20000 -outfmt '6 qseqid sseqid slen length qstart qend sstart send btop' -out MoMitochondrion.UFVPY184.BLAST
 awk '$4/$3 > 0.9 {print $2 ",mitochondrion"}' MoMitochondrion.UFVPY184.BLAST > MyGenome_mitochondrion.csv
 ```
+
+*list of aligned contigs*
 
 ## 19. BLAST UFVPY184 against repeat-masked version of the B71 reference genome. 
 ```bash
@@ -235,8 +249,10 @@ snap-hmm Moryzae.hmm UFVPY184_final.fasta > UFVPY184-snap.zff
 ```
 Convert from default ZFF output format: 
 ```bash
-snap-hmm Moryzae.hmm MyGenome.fasta -gff > MyGenome-snap.gff2
+snap-hmm Moryzae.hmm UFVPY184_final.fasta -gff > UFVPY184-snap.gff2
 ```
+
+*include UFVPY184-snap.gff2 *
 
 ## 26. Running AUGUSTUS to search genomes for predicted genes. 
 Magnaporthe grisea is very closely related to this species, so no need to retrain AUGUSTUS. Rather than specifying a parameter file explicitly, use the name of one of the included species:
@@ -245,6 +261,8 @@ ssh cjea222@cjea222.cs.uky.edu
 cd genes/augustus
 augustus --species=magnaporthe_grisea --gff3=on --singlestrand=true --progress=true ../snap/UFVPY184_final.fasta > UFVPY184-augustus.gff3
 ```
+
+*include UFVPY184-augustus.gff3*
 
 ## 27. Combining evidence from SNAP and AUGUSTUS with MAKER. 
 Create Maker configuration files:
@@ -277,3 +295,5 @@ Merge all results from Maker into one GFF file:
 ```bash
 gff3_merge -d UFVPY184.maker.output/UFVPY184_master_datastore_index.log -o UFVPY184-annotations.gff
 ```
+
+*include UFVPY184-annotations.gff* 
