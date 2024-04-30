@@ -76,7 +76,6 @@ cd /project/farman_s24cs485g/cjea222/
 velveth UFVPY184_velvet 79 -shortPaired  -fastq.gz -separate UFVPY184_1_paired.fastq UFVPY184_2_paired.fastq
 velvetg UFVPY184_velvet
 ```
-Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
 ## 10. Run VelvetOptimiser using a range of K-mer values. 
 ```bash
