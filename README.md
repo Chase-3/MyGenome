@@ -168,7 +168,7 @@ blastn -query MoMitochondrion.fasta -subject UFVPY184_nh.fasta -evalue 1e-50 -ma
 awk '$4/$3 > 0.9 {print $2 ",mitochondrion"}' MoMitochondrion.UFVPY184.BLAST > MyGenome_mitochondrion.csv
 ```
 
-*list of aligned contigs*
+[UFVPY184_mitochondrion.csv](/data/UFVPY184_mitochondrion.csv)
 
 ## 19. BLAST UFVPY184 against repeat-masked version of the B71 reference genome. 
 ```bash
