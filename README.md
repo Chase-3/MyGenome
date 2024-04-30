@@ -246,4 +246,34 @@ cd genes/augustus
 augustus --species=magnaporthe_grisea --gff3=on --singlestrand=true --progress=true ../snap/UFVPY184_final.fasta > UFVPY184-augustus.gff3
 ```
 
-## 27. Combining evidence with MAKER. 
+## 27. Combining evidence from SNAP and AUGUSTUS with MAKER. 
+Create Maker configuration files:
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd genes/maker
+maker -CTL
+```
+
+Open maker_opts.ctl with a text editor:
+``bash
+nano maker_opts.ctl
+```
+
+Find the lines for the following options and edit them as shown:
+genome=/home/cjea222@cjea222/genes/snap/UFVPY184_final.fasta
+model_org= must be set to blank
+repeat_protein= must be set to blank
+snaphmm=/home/cjea222@cjea222/genes/snap/Moryzae.hmm
+augustus_species=magnaporthe_grisea
+keep_preds=1
+protein=/home/cjea222@cjea222/genes/maker/genbank/ncbi-protein-Magnaporthe_organism.fasta
+
+Run Maker and log errors:
+```bash
+maker 2>&1 | tee maker.log
+```
+
+Merge all results from Maker into one GFF file: 
+```bash
+gff3_merge -d UFVPY184.maker.output/UFVPY184_master_datastore_index.log -o UFVPY184-annotations.gff
+```
