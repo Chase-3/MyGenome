@@ -249,7 +249,7 @@ Convert from default ZFF output format:
 snap-hmm Moryzae.hmm UFVPY184_final.fasta -gff > UFVPY184-snap.gff2
 ```
 
-*include UFVPY184-snap.gff2 *
+[UFVPY184-snap.gff2](/data/UFVPY184-snap.gff2)
 
 ## 26. Running AUGUSTUS to search genomes for predicted genes. 
 Magnaporthe grisea is very closely related to this species, so no need to retrain AUGUSTUS. Rather than specifying a parameter file explicitly, use the name of one of the included species:
@@ -259,7 +259,7 @@ cd genes/augustus
 augustus --species=magnaporthe_grisea --gff3=on --singlestrand=true --progress=true ../snap/UFVPY184_final.fasta > UFVPY184-augustus.gff3
 ```
 
-*include UFVPY184-augustus.gff3*
+*UFVPY184-augustus.gff3 too large to upload*
 
 ## 27. Combining evidence from SNAP and AUGUSTUS with MAKER. 
 Create Maker configuration files:
@@ -293,4 +293,4 @@ Merge all results from Maker into one GFF file:
 gff3_merge -d UFVPY184.maker.output/UFVPY184_master_datastore_index.log -o UFVPY184-annotations.gff
 ```
 
-*include UFVPY184-annotations.gff* 
+*UFVPY184-annotations.gff too large to upload* 
