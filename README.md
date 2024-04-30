@@ -67,7 +67,7 @@ Fill in the relevant fields with sequence reads data.
 Estimate the genome size to be 5.5 Mb.
 Use a target K-mer coverage of 20. 
 
-*screenshot of recommended k-mer value*
+[VelvetAdvisor.jpg](/data/VelvetAdvisor.jpg)
 
 ## 9. Run VelvetH and VelvetG with suggested K-mer value. 
 ```bash
