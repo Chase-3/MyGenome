@@ -99,6 +99,7 @@ perl /SCRIPTS/SimpleFastaHeaders.pl cjea222/UFVPY184.fasta UFVPY184
 ```
 
 ## 13. Run Benchmarking Using Single-Copy Orthologs (BUSCO) on fully optimized assemblies. 
+This is a metric used to assess genome assembly completeness. 
 ```bash
 ssh cjea222@mcc.uky.edu
 cd /project/farman_s24cs485g/
@@ -135,20 +136,17 @@ perl SequenceLengths.pl UFVPY184_nh.fasta | sort -k2n
 
 Sort alignments based on chromosomal position: 
 ```bash
-ssh cjea222@cjea222.cs.uky.edu
 cd blast 
 awk '$2 ~/contigXXX/' MoRepeats.UFVPY184.BLASTn6 | sort -k9n
 ```
 or
 ```bash
-ssh cjea222@cjea222.cs.uky.edu
 cd blast 
 grep <Repeat> MoRepeats.UFVPY184.BLASTn6 | awk \'$2 ~ /contigXXX/' | awk '$9 > (start position) && $9 < (end position)' | sort -k9n
 ```
 
 Identify alignments involving full-length repeats: 
 ```bash
-ssh cjea222@cjea222.cs.uky.edu
 cd blast 
 grep <Repeat> MoRepeats.UFVPY184BLASTn6 | awk '$4 >= 5638'
 ```
@@ -188,3 +186,64 @@ cp SCRIPTs/CullShortContigs.pl cjea222/
 cd cjea222
 perl CullShortContigs.pl UFVPY184_nh.fasta
 ```
+
+## 24. Use gene annotations from a reference genome to generate a set of training data for SNAP:
+Download the B71ref2.fasta genome and B71Ref2_a0.3.gff3 annotation file from the Farman Mac Desktop to the current directory:
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd genes/snap
+scp AppliedBioinfo@10.163.183.71:~/Desktop/B71ref2.fasta .
+scp AppliedBioinfo@10.163.183.71:~/Desktop/B71Ref2_a0.3.gff3 .
+```
+
+Append the genome fasta sequence to the end of the gff3 file: 
+```bash
+echo '##FASTA' | cat B71Ref2_a0.3.gff3 - B71Ref2.fasta > B71Ref2.gff3
+```
+
+Convert the GFF file containing the reference data to a custom format (ZFF):
+```bash
+maker2zff B71Ref2.gff3
+```
+
+Extract the genome regions containing unique genes. Ask for up to 1000 base pairs of intergenic sequence on both sides of each gene:
+```bash
+fathom genome.ann genome.dna -categorize 1000
+```
+
+Extract the genome, transcript, and protein sequences from these genes. Keep 1000 base pairs of context and also flip genes that are on the reverse strand:
+```bash
+fathom uni.ann uni.dna -export 1000 -plus
+```
+
+Train the HMM:
+```bash
+forge export.ann export.dna
+```
+
+Condense all relative files into a single file for use with runs of SNAP:
+```bash
+hmm-assembler.pl Moryzae . > Moryzae.hmm
+```
+
+## 25. Running SNAP to search genomes for predicted genes. 
+Run SNAP by giving the name of your parameter file and your FASTA file:
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd genes/snap
+snap-hmm Moryzae.hmm UFVPY184_final.fasta > UFVPY184-snap.zff
+```
+Convert from default ZFF output format: 
+```bash
+snap-hmm Moryzae.hmm MyGenome.fasta -gff > MyGenome-snap.gff2
+```
+
+## 26. Running AUGUSTUS to search genomes for predicted genes. 
+Magnaporthe grisea is very closely related to this species, so no need to retrain AUGUSTUS. Rather than specifying a parameter file explicitly, use the name of one of the included species:
+```bash
+ssh cjea222@cjea222.cs.uky.edu
+cd genes/augustus
+augustus --species=magnaporthe_grisea --gff3=on --singlestrand=true --progress=true ../snap/UFVPY184_final.fasta > UFVPY184-augustus.gff3
+```
+
+## 27. Combining evidence with MAKER. 
