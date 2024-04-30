@@ -78,8 +78,6 @@ velvetg UFVPY184_velvet
 ```
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-*screenshot of results*
-
 ## 10. Run VelvetOptimiser using a range of K-mer values. 
 ```bash
 ssh cjea222@mcc.uky.edu
@@ -88,7 +86,7 @@ velvetoptimiser -s 121 -e 201 -x 10 -d UFVPY184_velvet_optimal -f '-shortPaired 
 ```
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-*screenshot of results*
+[VelvetOptimiser_10.jpg](/data/VelvetOptimiser_10.jpg)
 
 ## 11. Rerun VelvetOptimiser using a narrower k-mer range and step size of 2 for best possible assembly of dataset. 
 ```bash
@@ -99,7 +97,7 @@ velvetoptimiser -s 93 -e 119 -x 2 -d UFVPY184_velvet_optimal_1 -f '-shortPaired 
 Optimized asssembly with velvet hash value of 109. 
 Record genomze size, number of scaffolds, nd N50 value from Log file. 
 
-*screenshot of results*
+[VelvetOptimiser_2.jpg](/data/VelvetOptimiser_2.jpg)
 
 ## 12. Rename sequence headers to a standard format.
 ```bash
