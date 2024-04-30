@@ -113,7 +113,7 @@ cd /project/farman_s24cs485g/
 sbatch /project/farman_s24cs485g/SLURM_SCRIPTS/BuscoSingularity.sh MyGenome.fasta
 ```
 
-*screenshot of BUSCO score*
+[BUSCO_Score.jpg](/data/BUSCO_Score.jpg)
 
 ## 14. Check Version of Blast on VM. 
 ```bash
