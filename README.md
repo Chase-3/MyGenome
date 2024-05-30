@@ -61,7 +61,7 @@ scp UFVPY184_1_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea22
 scp UFVPY184_2_paired.fastq cjea222@mcc.uky.edu:~/project/farman_24cs485g/cjea222
 ```
 
-## 8. Use Velvet Advisor to identify a suitable k-mer value for assembling a bacterial genome. 
+## 8. Use Velvet Advisor to identify a suitable k-mer value for assembling a fungal genome. 
 Launch online tool: https://dna.med.monash.edu/~torsten/velvet_advisor/
 Fill in the relevant fields with sequence reads data. 
 Estimate the genome size to be 5.5 Mb.
